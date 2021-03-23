@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="EdwardGarciaDB-Web.config Connection String" description="EdwardGarciaDB Connection String used in web.config by the application to access the database." defaultValue="Data Source=SQL5103.site4now.net;Initial Catalog=DB_A71182_EdwardGarciaFinal;Persist Security Info=True;User ID=DB_A71182_EdwardGarciaFinal_admin;Password=Ragnarok@758" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Edward\\source\\repos\\EdwardGarcia\\EdwardGarcia\\obj\\Release\\Package\\PackageTmp\\Views\\web\.config$" match="/configuration/connectionStrings/add[@name='EdwardGarciaDB']/@connectionString" />
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Edward\\source\\repos\\EdwardGarcia\\EdwardGarcia\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='EdwardGarciaDB']/@connectionString" />
+  </parameter>
+</parameters>

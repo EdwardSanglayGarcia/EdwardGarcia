@@ -1,0 +1,349 @@
+﻿
+@{
+    Layout = null;
+}
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+
+    <link href="~/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+          integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+          crossorigin="anonymous" />
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+            integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+            crossorigin=""></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
+    <style>
+
+        * {
+            margin: 0 auto;
+            padding: 0;
+            max-width: 100%;
+        }
+
+        .grid {
+            text-align: center;
+            max-width: 95vw;
+            margin: 2.5vw auto;
+        }
+
+        .mimg {
+            transition: transform .2s;
+            /* Animation */
+            width: 270px;
+            height: 180px;
+            display: block;
+            margin: auto;
+            margin-left: 50px;
+        }
+
+            .mimg:hover {
+                transform: scale(1.2);
+                /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+            }
+
+        .grid-item {
+            width: 200px;
+        }
+
+        .grid-item--width2 {
+            width: 400px;
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+
+
+    <div class="row">
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="container">
+
+            </div>
+        </div>
+        <div class="col-sm-9">
+
+        </div>
+    </div>
+
+
+    <section id="contact">
+        <div style="text-align: center; margin-bottom: 50px; ">
+            <h1 style="font-weight: 1000; ">Tourista!</h1>
+            <div>
+                <h7 style="font-style: italic;">Tap on the map to know more!</h7>
+            </div>
+        </div>
+
+        <div class="container">
+            <div id="mapid" style="height: 500px; width:auto; margin-top:30px"></div>
+
+        </div>
+
+    </section>
+
+
+
+    <section id="contact">
+
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 50px; ">
+                <h1 style="font-weight: 1000; ">Images</h1>
+                <div>
+                    <h7 style="font-style: italic;">See their culture, tradition, and tourist desinations by clicking the image!</h7>
+                </div>
+            </div>
+
+            <div id="title" style="text-align:center;">
+                <p id="demo"></p>
+            </div>
+            <div id="content">
+            </div>
+        </div>
+
+    </section>
+
+    <footer style="display: flex;">
+
+        <div class="container" style="color:white;">
+            <p style="font-style: oblique;">
+                <h3>Edward S. Garcia</h3>
+            <p>IAm@EdwardGarcia.tech</p>
+            <span class="ml-1">
+                <a href="https://github.com/ESGFreelance" target="_blank">
+                    <i class="fab fa-github-square fa-3x"></i>
+                </a>
+            </span>
+            <span class="ml-1">
+                <a href="https://www.linkedin.com/in/edward-garcia-752844125/" target="_blank">
+                    <i class="fab fa-linkedin fa-3x"></i>
+                </a>
+            </span>
+            <span class="ml-1">
+                <a href="https://www.researchgate.net/profile/Edward-Garcia" target="_blank">
+                    <i class="fab fa-researchgate fa-3x"></i>
+                </a>
+            </span>
+            <p>&copy; 2021</p>
+        </div>
+
+
+    </footer>
+
+</body>
+
+</html>
+
+
+<script>
+
+    $(document).ready(function () {
+        loadMap();
+    });
+
+    var markerAutoLocation;
+    var markerToParameterLatitude;
+    var markerToParameterLongitude;
+    var a = 'https://api.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiYmJyb29rMTU0IiwiYSI6ImNpcXN3dnJrdDAwMGNmd250bjhvZXpnbWsifQ.Nf9Zkfchos577IanoKMoYQ';
+    var b = 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+    var c = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+
+    var map = L.map('mapid');
+
+
+
+    var maxBounds = [
+        [21.116625, 131.175528],
+        [4.991861, 115.976455]
+    ];
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        clearMarker();
+        FINAL_LATITUDE = position.coords.latitude;
+        FINAL_LONGITUDE = position.coords.longitude;
+        markerAutoLocation = L.marker([FINAL_LATITUDE, FINAL_LONGITUDE]).addTo(map);
+        map.setView([position.coords.latitude, position.coords.longitude], 30);
+        console.log(FINAL_LATITUDE + ',' + FINAL_LONGITUDE);
+        provideFinalInformation();
+    }
+
+    function clearMarker() {
+        if (markerAutoLocation != undefined) {
+            map.removeLayer(markerAutoLocation);
+            try {
+                map.removeLayer(markerAutoLocation);
+            }
+            catch (any) {
+                console.log(markerToParameterLatitude)
+            }
+        };
+
+    }
+
+    function loadMap() {
+        map.setView([14.642285, 121.050823], 30);
+        map.setMaxBounds(maxBounds);
+        map.fitBounds(maxBounds);
+        var tiles = L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: 'NOT NEEDED',
+        }).addTo(map);
+        $('.leaflet-control-attribution').hide();
+    }
+
+    map.on('click', function (e) {
+        markerToParameterLatitude = e.latlng.lat;
+        markerToParameterLongitude = e.latlng.lng;
+        clearMarker();
+        markerAutoLocation = L.marker([markerToParameterLatitude, markerToParameterLongitude]).addTo(map);
+        FINAL_LATITUDE = markerToParameterLatitude;
+        FINAL_LONGITUDE = markerToParameterLongitude;
+        console.log(FINAL_LATITUDE + ',' + FINAL_LONGITUDE);
+        provideFinalInformation();
+    });
+
+
+    function provideFinalInformation() {
+        var query = "latitude=" + FINAL_LATITUDE + "&longitude=" + FINAL_LONGITUDE + "&localityLanguage=en";
+        var myquery = "https://www.mapquestapi.com/geocoding/v1/reverse?key=70lT1MGyIG5Zv5p3crzEPBj6zWqGG6GO&location=" + FINAL_LATITUDE + "%2C" + FINAL_LONGITUDE + "&outFormat=json&thumbMaps=false";
+
+
+        if (FINAL_LATITUDE >= 4.991861 && FINAL_LATITUDE <= 21.116625 && FINAL_LONGITUDE >= 115.976455 && FINAL_LONGITUDE <= 131.175528) {
+            // alert('INSIDE')
+            const Http = new XMLHttpRequest();
+            var bigdatacloud_api = "https://api.bigdatacloud.net/data/reverse-geocode-client?";
+
+
+            bigdatacloud_api += query;
+            Http.open("GET", myquery);
+            Http.send();
+
+            Http.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var myObj = JSON.parse(this.responseText);
+
+                    //FINAL_LATITUDE = myObj.latitude;
+                    //FINAL_LONGITUDE = myObj.longitude;
+                    FINAL_LOCATION = myObj.city;
+
+                    FINAL_LOCATION5 = myObj.results[0].locations[0].adminArea5;
+                    FINAL_LOCATION3 = myObj.results[0].locations[0].adminArea3;
+                    FINAL_LOCATION4 = myObj.results[0].locations[0].adminArea4;
+
+
+                  //  FINAL_CODE = myObj.principalSubdivisionCode;
+                    FINAL_PRINCIPALSUBDIVISION = myObj.principalSubdivision;
+                    if (FINAL_LOCATION == "") {
+                        FINAL_LOCATION = myObj.locality;
+                    }   
+
+
+                    document.getElementById("demo").innerHTML = FINAL_LOCATION5 + ' ' + FINAL_LOCATION3 + ' ' + FINAL_LOCATION4; //THIS IS FOR TEST PURPOSE ONLY
+
+                    console.log(FINAL_LOCATION5 + ' ' + FINAL_LOCATION3 + ' ' + FINAL_LOCATION4);
+                    LoadMyImages(FINAL_LOCATION5 + ' ' + FINAL_LOCATION3 + ' ' + FINAL_LOCATION4);
+                    executeMasonry();
+                   // alert(FINAL_LOCATION5 + ' ' + FINAL_LOCATION3);
+                }
+            };
+        }
+        else {
+            // alert('OUTSIDE')
+            Swal.fire({
+                icon: 'error',
+                title: 'NOT ALLOWED!',
+                text: 'Please tap only the areas under the Philippine territory.',
+            })
+        }
+
+       
+    }
+
+    function LoadMyImages(cityName) {
+        $.ajax({
+            type: "GET",
+            "url": "/DataGet/ScrapDataFinal",
+            dataType: "json",
+            async: false,
+            data: {
+                paramCity: cityName
+            },
+            success: function (result) {
+                var jsonStringify = JSON.stringify(result);
+                var jsonObj = JSON.parse(jsonStringify);
+                resultingdata = jsonObj;
+                document.getElementById("content").innerHTML = resultingdata;
+            }
+        });
+    }
+
+    /* THIS IS FOR MASONRY */
+    function executeMasonry() {
+        var elem = document.querySelector('.grid');
+        var msnry = new Masonry(elem, {
+            // options
+            itemSelector: '.grid-item',
+            columnWidth: 200
+        });
+
+        // element argument can be a selector string
+        //   for an individual element
+        var msnry = new Masonry('.grid', {
+            // options
+        });
+        $('.grid').masonry({
+            // options
+            itemSelector: '.grid-item',
+            columnWidth: 200
+        });
+    }
+
+    /*THIS IS FOR IMAGE DISPLAY THROUGH SWAL2*/
+    $(document).on("click", "#imageID", function () {
+        Swal.fire({
+            title: 'Tourista! Web Scraping App',
+            text: 'Created by Edward Garcia',
+            imageUrl: $(this)[0].getAttribute('src'),
+            html:
+                "Click <a href='" + $(this)[0].getAttribute('longdesc')+"' target='blank'>here</a> to visit the source.",
+
+        })
+
+    });
+
+    function img404(img) {
+        img.onerror = "";
+        img.src = "https://www.unionsquaredesign.com/wp-content/uploads/2016/04/2848153500_7826b897af_o.png";
+        return true;
+    }
+
+</script>

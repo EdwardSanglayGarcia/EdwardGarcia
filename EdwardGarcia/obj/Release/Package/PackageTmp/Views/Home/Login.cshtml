@@ -1,0 +1,27 @@
+﻿
+@{
+    Layout = null;
+}
+
+<h2>Login</h2>
+
+@using (Html.BeginForm("Authorise", "Home", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col">
+            <input type="text" class="form-control" name="Username" placeholder="Username" required>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <input type="password" class="form-control" name="Password" placeholder="Password" required>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col text-center">
+            <button type="submit" class="btn btn-dark">Submit</button>
+        </div>
+    </div>
+}

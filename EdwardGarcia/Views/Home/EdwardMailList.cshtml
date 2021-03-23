@@ -1,0 +1,210 @@
+﻿@{
+    Layout = null;
+    if (Session["Username"] == null)
+    {
+        Response.Redirect("~/Home/Login");
+    }
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+          integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+          crossorigin="anonymous" />
+    <link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/1.0.0/js/dataTables.responsive.js"></script>
+    <link href="https://cdn.datatables.net/responsive/1.0.0/css/dataTables.responsive.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <link href="~/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Mail Management System</title>
+</head>
+<body>
+    @Html.ActionLink("Logout", "LogOut", null, new { @class = "btn btn btn-dark btn-xl" })
+
+    <div>
+        <table id="MailTable" class="table table-hover table-striped table-bordered table-responsive-sm" cellspacing="0" style="width:100%; "></table>
+    </div>
+
+    <div class="modal fade" id="btnViewMail" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content" id="modalwindow">
+                <div class="modal-header">
+                    <h3 class="modal-title Title">Mail </h3>
+                </div>
+                <div class="modal-body">
+
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="md-form mb-3">
+                                <label data-error="wrong" data-success="right" for="orangeForm-name">Mail ID</label>
+                                <input type="text" id="tbMailID" class="form-control validate" disabled>
+                            </div>
+
+                            <div class="md-form mb-3">
+                                <label data-error="wrong" data-success="right" for="orangeForm-name">Sender</label>
+                                <input type="text" id="tbSender" class="form-control validate" disabled>
+                            </div>
+
+
+                            <div class="md-form mb-3">
+                                <label data-error="wrong" data-success="right" for="orangeForm-name">Date Sent</label>
+                                <input type="text" id="tbDateSent" class="form-control validate" disabled>
+                            </div>
+
+                            <div class="md-form mb-3">
+                                <label data-error="wrong" data-success="right" for="orangeForm-name">Date Updated</label>
+                                <input type="text" id="tbDateUpdated" class="form-control validate" disabled>
+                            </div>
+
+                            <div class="md-form mb-3">
+                                <label data-error="wrong" data-success="right" for="orangeForm-name">Current Status</label>
+                                <input type="text" id="tbCurrentStatusID" class="form-control validate" disabled>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+
+
+                            <div class="md-form mb-3">
+                                <label data-error="wrong" data-success="right" for="orangeForm-name">Subject</label>
+                                <input type="text" id="tbSubject" class="form-control validate" disabled>
+                            </div>
+
+                            <div class="md-form mb-3">
+                                <label data-error="wrong" data-success="right" for="orangeForm-name">Message</label>
+                                <textarea id="tbMessage" class="form-control validate" disabled rows="10"></textarea>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <p>Created by Edward Garcia</p>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" title="Close">Close</button>
+                </div>
+            </div>
+            <!-- Modal content-->
+        </div>
+    </div>
+</body>
+</html>
+
+
+<script>
+
+    $(document).ready(function () {
+        LoadMailTable();
+    });
+
+
+    function LoadMailTable() {
+        table = $('#MailTable').DataTable({
+            bLengthChange: false,
+            destroy: true,
+            responsive: true,
+            order: [[1, 'desc']],
+            ajax: {
+                type: "GET",
+                "url": "/DataGet/GetMailRecords",
+                data: {
+                    CurrentStatusID: 1,
+                },
+                dataSrc: function (json) {
+                    var a = new Array();
+                    for (var b = 0; b <= json.length - 1; b++) {
+                        var c = json[b];
+                        a.push({
+                            'MailID': c.MailID,
+                            'Sender': c.Sender,
+                            'Subject': c.Subject,
+                            'Message': c.Message,
+                            'DateSent': new Date(parseInt(c.DateSent.substr(6))),
+                            'DateUpdated': new Date(parseInt(c.DateUpdated.substr(6))),
+                            'CurrentStatusID': c.CurrentStatusID
+                        });
+                    }
+                    return a;
+                },
+            },
+            columns: [
+                {
+                    title: "View Mail",
+                    "render": function () {
+                        var edit = "<a class='btn btn-primary btn-xs btnViewMail' title='Edit' style='color: white'><i class = 'fa fa-1x fa-address-card'></i></a>";
+                        return edit;
+                    },
+                },
+                {
+                    title: "Mail ID",
+                    data: "MailID"
+                },
+                {
+                    title: "Sender",
+                    data: "Sender"
+                },
+                {
+                    title: "Subject",
+                    data: "Subject"
+                },
+                {
+                    title: "DateSent",
+                    data: "DateSent"
+                },
+
+            ],
+            'columnDefs': [
+                {
+                    "className": "dt-center", "targets": "_all"
+                }],
+        });
+        return table;
+    };
+
+    $(document).on("click", ".btnViewMail", function () {
+        $('#btnViewMail').modal('show');
+        var data = table.row($(this).parents('tr')).data();
+        document.getElementById('tbMessage').value = data["Message"];
+        document.getElementById('tbMailID').value = data["MailID"];
+
+        document.getElementById('tbSender').value = data["Sender"];
+
+        document.getElementById('tbSubject').value = data["Subject"];
+
+        document.getElementById('tbDateSent').value = data["DateSent"];
+
+        document.getElementById('tbDateUpdated').value = data["DateUpdated"];
+
+        document.getElementById('tbCurrentStatusID').value = data["CurrentStatusID"];
+
+
+
+    });
+
+
+
+</script>

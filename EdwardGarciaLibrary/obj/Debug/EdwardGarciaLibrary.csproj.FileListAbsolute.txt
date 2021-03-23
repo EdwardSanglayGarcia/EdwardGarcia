@@ -1,0 +1,9 @@
+C:\Users\Edward\source\repos\EdwardGarcia\EdwardGarciaLibrary\bin\Debug\EdwardGarciaLibrary.dll
+C:\Users\Edward\source\repos\EdwardGarcia\EdwardGarciaLibrary\bin\Debug\EdwardGarciaLibrary.pdb
+C:\Users\Edward\source\repos\EdwardGarcia\EdwardGarciaLibrary\bin\Debug\Dapper.dll
+C:\Users\Edward\source\repos\EdwardGarcia\EdwardGarciaLibrary\bin\Debug\Dapper.xml
+C:\Users\Edward\source\repos\EdwardGarcia\EdwardGarciaLibrary\obj\Debug\EdwardGarciaLibrary.csprojAssemblyReference.cache
+C:\Users\Edward\source\repos\EdwardGarcia\EdwardGarciaLibrary\obj\Debug\EdwardGarciaLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Edward\source\repos\EdwardGarcia\EdwardGarciaLibrary\obj\Debug\EdwardGarciaLibrary.csproj.CopyComplete
+C:\Users\Edward\source\repos\EdwardGarcia\EdwardGarciaLibrary\obj\Debug\EdwardGarciaLibrary.dll
+C:\Users\Edward\source\repos\EdwardGarcia\EdwardGarciaLibrary\obj\Debug\EdwardGarciaLibrary.pdb
